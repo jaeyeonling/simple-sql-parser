@@ -14,6 +14,7 @@ import com.jaeyeonling.ast.expression.BooleanLiteral;
 import com.jaeyeonling.ast.expression.ColumnReference;
 import com.jaeyeonling.ast.expression.DecimalLiteral;
 import com.jaeyeonling.ast.expression.ExpressionSelectItem;
+import com.jaeyeonling.ast.expression.FunctionCall;
 import com.jaeyeonling.ast.expression.InExpression;
 import com.jaeyeonling.ast.expression.IntegerLiteral;
 import com.jaeyeonling.ast.expression.IsNotNullExpression;
@@ -170,6 +171,11 @@ public abstract class AbstractAstVisitor<T> implements AstVisitor<T> {
 
     @Override
     public T visitIsNotNullExpression(IsNotNullExpression isNotNullExpression) {
+        return null;
+    }
+
+    @Override
+    public T visitFunctionCall(FunctionCall functionCall) {
         return null;
     }
 }

@@ -14,6 +14,7 @@ import com.jaeyeonling.ast.expression.BooleanLiteral;
 import com.jaeyeonling.ast.expression.ColumnReference;
 import com.jaeyeonling.ast.expression.DecimalLiteral;
 import com.jaeyeonling.ast.expression.ExpressionSelectItem;
+import com.jaeyeonling.ast.expression.FunctionCall;
 import com.jaeyeonling.ast.expression.InExpression;
 import com.jaeyeonling.ast.expression.IntegerLiteral;
 import com.jaeyeonling.ast.expression.IsNotNullExpression;
@@ -90,4 +91,6 @@ public interface AstVisitor<T> {
     T visitIsNullExpression(IsNullExpression isNullExpression);
 
     T visitIsNotNullExpression(IsNotNullExpression isNotNullExpression);
+
+    T visitFunctionCall(FunctionCall functionCall);
 }

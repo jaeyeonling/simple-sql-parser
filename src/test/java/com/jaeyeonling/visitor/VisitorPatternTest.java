@@ -145,7 +145,7 @@ class VisitorPatternTest {
         final SelectStatement stmt = new SqlParser(sql).parse();
 
         // 컬럼명을 수집하는 커스텀 Visitor
-        final AstVisitor<List<String>> columnCollector = new AstVisitor<>() {
+        final AstVisitor<List<String>> columnCollector = new AbstractAstVisitor<>() {
             private final List<String> columns = new ArrayList<>();
 
             @Override
@@ -324,7 +324,7 @@ class VisitorPatternTest {
         final SelectStatement stmt = new SqlParser(sql).parse();
 
         // 테이블명을 수집하는 커스텀 Visitor
-        final AstVisitor<List<String>> tableCollector = new AstVisitor<>() {
+        final AstVisitor<List<String>> tableCollector = new AbstractAstVisitor<>() {
             private final List<String> tables = new ArrayList<>();
 
             @Override
@@ -511,7 +511,7 @@ class VisitorPatternTest {
         final SelectStatement stmt = new SqlParser(sql).parse();
 
         // 방문한 노드 타입을 추적하는 Visitor
-        final AstVisitor<List<String>> nodeTypeCollector = new AstVisitor<>() {
+        final AstVisitor<List<String>> nodeTypeCollector = new AbstractAstVisitor<>() {
             private final List<String> nodeTypes = new ArrayList<>();
 
             private List<String> record(String type) {

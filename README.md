@@ -32,12 +32,13 @@ String reconstructed = stmt.accept(visitor);
 - **특수 연산자**: LIKE, NOT LIKE, IN, NOT IN, BETWEEN, NOT BETWEEN, IS NULL, IS NOT NULL
 - **산술 연산자**: +, -, *, / (단일 연산만, 복합 수식 미지원)
 - **리터럴**: 정수, 실수, 문자열, TRUE, FALSE, NULL
+- **집계 함수**: COUNT(*), COUNT(column), SUM, AVG, MIN, MAX
 - **기타**: 컬럼 별칭(AS), 테이블 별칭, DISTINCT, *, 복수 테이블 FROM
 
 ### ❌ 미구현
 
-- **함수**: COUNT, SUM, AVG, MIN, MAX 등 집계 함수
-- **표현식**: 복잡한 수식 `(col1 + col2) * 2`, 함수 호출
+- **표현식**: 복잡한 수식 `(col1 + col2) * 2`
+- **함수**: 날짜/시간 함수(YEAR, MONTH 등), 문자열 함수(UPPER, LOWER 등)
 - **조인**: INNER/LEFT/RIGHT JOIN
 - **서브쿼리**: IN (SELECT ...), EXISTS
 - **스키마**: `schema.table`, `table.column` 점(.) 문법
