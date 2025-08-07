@@ -66,38 +66,21 @@ public class SelectClauseParser {
         // 표현식 (컬럼 참조 포함)
         final Expression expr = expressionParser.parseExpression();
 
-        // 별칭 처리
-        Optional<String> alias = Optional.empty();
-        if (tokenStream.advanceIfMatch(TokenType.AS)) {
-            Token aliasToken = tokenStream.consume(TokenType.IDENTIFIER,
-                    "AS 키워드 다음에는 컬럼 별칭을 지정해야 합니다.\n" +
-                            "예시: SELECT name AS 이름, age AS 나이 FROM users");
-            alias = Optional.of(aliasToken.value());
-        } else if (tokenStream.check(TokenType.IDENTIFIER) &&
-                !isReservedKeyword(tokenStream.peek())) {
-            // AS 없이 별칭이 올 수 있음
-            alias = Optional.of(tokenStream.advance().value());
-        }
+        // 별칭 파싱 (AS 키워드 있거나 없거나)
+        final Optional<String> alias = tokenStream.parseOptionalAlias(
+                "AS 키워드 다음에는 컬럼 별칭을 지정해야 합니다.\n" +
+                        "예시: SELECT name AS 이름, age AS 나이 FROM users"
+        );
 
-        // 컬럼 참조인 경우
         if (expr instanceof ColumnReference colRef) {
-            // 기존 컬럼 참조에 별칭을 추가한 새로운 인스턴스 생성
-            return alias.map(formattedContent -> new ColumnReference(
+            return alias.map(a -> new ColumnReference(
                     colRef.tableName().orElse(null),
                     colRef.columnName(),
-                    formattedContent,
+                    a,
                     colRef.location()
             )).orElse(colRef);
         }
 
-        // 일반 표현식인 경우
         return new ExpressionSelectItem(expr, alias.orElse(null), expr.location());
-    }
-
-    /**
-     * 예약어인지 확인합니다.
-     */
-    private boolean isReservedKeyword(final Token token) {
-        return tokenStream.isKeyword(token);
     }
 }

@@ -48,26 +48,11 @@ public class FromClauseParser {
                         "예시: FROM users, FROM products AS p");
         final String tableName = tableToken.value();
 
-        // AS alias 또는 그냥 alias
-        if (tokenStream.advanceIfMatch(TokenType.AS)) {
-            final Token aliasToken = tokenStream.consume(TokenType.IDENTIFIER,
-                    "AS 키워드 다음에는 테이블 별칭을 지정해야 합니다.\n" +
-                            "예시: FROM users AS u, FROM orders AS o");
-            return new Table(tableName, aliasToken.value(), new SourceLocation(tableToken));
-        }
+        final String alias = tokenStream.parseOptionalAlias(
+                "AS 키워드 다음에는 테이블 별칭을 지정해야 합니다.\n" +
+                        "예시: FROM users AS u, FROM orders AS o"
+        ).orElse(null);
 
-        // AS 없이 별칭이 올 수 있음
-        if (tokenStream.check(TokenType.IDENTIFIER) && !isReservedKeyword(tokenStream.peek())) {
-            return new Table(tableName, tokenStream.advance().value(), new SourceLocation(tableToken));
-        }
-
-        return new Table(tableName, null, new SourceLocation(tableToken));
-    }
-
-    /**
-     * 예약어인지 확인합니다.
-     */
-    private boolean isReservedKeyword(final Token token) {
-        return tokenStream.isKeyword(token);
+        return new Table(tableName, alias, new SourceLocation(tableToken));
     }
 }

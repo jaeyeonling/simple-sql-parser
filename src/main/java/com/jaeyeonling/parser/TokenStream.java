@@ -5,6 +5,7 @@ import com.jaeyeonling.lexer.Token;
 import com.jaeyeonling.lexer.TokenType;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 토큰 스트림을 관리하는 클래스.
@@ -115,5 +116,28 @@ public final class TokenStream {
      */
     public boolean isKeyword(final Token token) {
         return token.type().isKeyword();
+    }
+
+    /**
+     * 선택적 별칭(alias)을 파싱합니다.
+     * AS 키워드가 있으면 그 다음 식별자를 별칭으로 사용하고,
+     * AS가 없어도 예약어가 아닌 식별자가 있으면 별칭으로 사용합니다.
+     *
+     * @param errorMessageForAs AS 키워드 다음에 식별자가 없을 때 사용할 에러 메시지
+     * @return 별칭 문자열
+     */
+    public Optional<String> parseOptionalAlias(final String errorMessageForAs) {
+        // AS alias
+        if (advanceIfMatch(TokenType.AS)) {
+            final Token aliasToken = consume(TokenType.IDENTIFIER, errorMessageForAs);
+            return Optional.of(aliasToken.value());
+        }
+
+        // AS 없이 별칭이 올 수 있음 (예약어가 아닌 경우)
+        if (check(TokenType.IDENTIFIER) && !isKeyword(peek())) {
+            return Optional.of(advance().value());
+        }
+
+        return Optional.empty();
     }
 }
