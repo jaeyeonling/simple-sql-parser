@@ -22,7 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 class GroupByHavingParsingTest extends BaseSqlParserTest {
 
     @Test
-    @Disabled("파서가 아직 COUNT(*) 같은 함수를 지원하지 않음")
     @DisplayName("단일 컬럼 GROUP BY를 파싱한다")
     void testParseSingleColumnGroupBy() {
         // given
@@ -42,7 +41,6 @@ class GroupByHavingParsingTest extends BaseSqlParserTest {
     }
 
     @Test
-    @Disabled("파서가 아직 COUNT(*) 같은 함수를 지원하지 않음")
     @DisplayName("여러 컬럼 GROUP BY를 파싱한다")
     void testParseMultipleColumnsGroupBy() {
         // given
@@ -64,7 +62,6 @@ class GroupByHavingParsingTest extends BaseSqlParserTest {
     }
 
     @Test
-    @Disabled("파서가 아직 COUNT(*) 같은 함수를 지원하지 않음")
     @DisplayName("테이블.컬럼 형태의 GROUP BY를 파싱한다")
     void testParseTableQualifiedGroupBy() {
         // given
@@ -120,7 +117,6 @@ class GroupByHavingParsingTest extends BaseSqlParserTest {
     }
 
     @Test
-    @Disabled("파서가 아직 COUNT(*) 같은 함수를 지원하지 않음")
     @DisplayName("HAVING 절을 파싱한다")
     void testParseHavingClause() {
         // given
@@ -139,7 +135,6 @@ class GroupByHavingParsingTest extends BaseSqlParserTest {
     }
 
     @Test
-    @Disabled("파서가 아직 AVG 같은 집계 함수를 지원하지 않음")
     @DisplayName("복잡한 HAVING 조건을 파싱한다")
     void testParseComplexHavingCondition() {
         // given
@@ -160,7 +155,6 @@ class GroupByHavingParsingTest extends BaseSqlParserTest {
     }
 
     @Test
-    @Disabled("COUNT(*) 함수를 지원하지 않음")
     @DisplayName("HAVING은 GROUP BY 없이 사용할 수 없다")
     void testHavingWithoutGroupBy() {
         // given
@@ -176,7 +170,6 @@ class GroupByHavingParsingTest extends BaseSqlParserTest {
     }
 
     @Test
-    @Disabled("파서가 아직 COUNT(*) 같은 함수를 지원하지 않음")
     @DisplayName("GROUP BY와 HAVING이 올바른 순서로 파싱된다")
     void testGroupByHavingOrder() {
         // given
@@ -203,7 +196,6 @@ class GroupByHavingParsingTest extends BaseSqlParserTest {
     }
 
     @Test
-    @Disabled("COUNT(*) 함수를 지원하지 않음")
     @DisplayName("대소문자를 구분하지 않고 GROUP BY와 HAVING을 파싱한다")
     void testCaseInsensitive() {
         // given

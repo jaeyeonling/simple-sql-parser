@@ -59,7 +59,17 @@ class OperatorPluginTest {
         }
 
         // when
-        final OperatorParserRegistry registry = new OperatorParserRegistry(() -> null);
+        final OperatorParserRegistry registry = new OperatorParserRegistry(new ExpressionProvider() {
+            @Override
+            public Expression parseExpression() {
+                return null;
+            }
+            
+            @Override
+            public Expression parseAdditiveExpression() {
+                return null;
+            }
+        });
         registry.registerCustom(new LowPriorityOperator())
                 .registerCustom(new HighPriorityOperator());
 

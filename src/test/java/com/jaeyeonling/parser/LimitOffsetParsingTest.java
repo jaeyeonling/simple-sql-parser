@@ -124,7 +124,6 @@ class LimitOffsetParsingTest extends BaseSqlParserTest {
     }
 
     @Test
-    @Disabled("파서가 아직 COUNT(*) 같은 함수와 집계를 지원하지 않음")
     @DisplayName("모든 절이 있는 복잡한 쿼리에서 LIMIT을 파싱한다")
     void testLimitInComplexQuery() {
         // given

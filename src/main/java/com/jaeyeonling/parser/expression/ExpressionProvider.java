@@ -9,6 +9,13 @@ import com.jaeyeonling.ast.expression.Expression;
 public interface ExpressionProvider {
 
     /**
+     * 표현식을 파싱합니다.
+     *
+     * @return 파싱된 표현식
+     */
+    Expression parseExpression();
+
+    /**
      * 덧셈/뺄셈 수준의 표현식을 파싱합니다.
      *
      * @return 파싱된 표현식

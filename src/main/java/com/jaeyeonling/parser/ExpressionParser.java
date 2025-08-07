@@ -8,6 +8,7 @@ import com.jaeyeonling.exception.SyntaxException;
 import com.jaeyeonling.lexer.Token;
 import com.jaeyeonling.lexer.TokenType;
 import com.jaeyeonling.parser.expression.ExpressionProvider;
+import com.jaeyeonling.parser.expression.FunctionParser;
 import com.jaeyeonling.parser.expression.IdentifierParser;
 import com.jaeyeonling.parser.expression.LiteralParser;
 import com.jaeyeonling.parser.expression.OperatorParser;
@@ -53,18 +54,21 @@ public final class ExpressionParser implements ExpressionProvider {
     private final LiteralParser literalParser;
     private final IdentifierParser identifierParser;
     private final OperatorParserRegistry operatorRegistry;
+    private final FunctionParser functionParser;
 
     public ExpressionParser(final TokenStream tokenStream) {
         this.tokenStream = tokenStream;
         this.literalParser = new LiteralParser(tokenStream);
         this.identifierParser = new IdentifierParser(tokenStream);
         this.operatorRegistry = new OperatorParserRegistry(this);
+        this.functionParser = new FunctionParser(tokenStream, this);
     }
 
     /**
      * 표현식을 파싱합니다.
      * 가장 낮은 우선순위(OR)부터 시작하여 재귀적으로 파싱합니다.
      */
+    @Override
     public Expression parseExpression() {
         return parseOrExpression();
     }
@@ -196,7 +200,12 @@ public final class ExpressionParser implements ExpressionProvider {
             return expr;
         }
 
-        // 4. 식별자 파싱 위임 (컬럼명 또는 테이블.컬럼)
+        // 4. 함수 호출 파싱 - FunctionParser에 위임
+        if (functionParser.canParseFunction()) {
+            return functionParser.parseFunction();
+        }
+
+        // 5. 일반 식별자 파싱 위임 (컬럼명 또는 테이블.컬럼)
         final Expression identifier = identifierParser.parseIdentifier();
         if (identifier != null) {
             return identifier;
@@ -208,4 +217,5 @@ public final class ExpressionParser implements ExpressionProvider {
                         "표현식에는 컬럼명, 숫자, 문자열, 함수 호출 등이 올 수 있습니다.",
                 tokenStream.peek());
     }
+
 }

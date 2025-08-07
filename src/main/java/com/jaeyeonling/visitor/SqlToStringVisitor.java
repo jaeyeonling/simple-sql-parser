@@ -14,6 +14,7 @@ import com.jaeyeonling.ast.expression.BooleanLiteral;
 import com.jaeyeonling.ast.expression.ColumnReference;
 import com.jaeyeonling.ast.expression.DecimalLiteral;
 import com.jaeyeonling.ast.expression.ExpressionSelectItem;
+import com.jaeyeonling.ast.expression.FunctionCall;
 import com.jaeyeonling.ast.expression.InExpression;
 import com.jaeyeonling.ast.expression.IntegerLiteral;
 import com.jaeyeonling.ast.expression.IsNotNullExpression;
@@ -273,5 +274,14 @@ public final class SqlToStringVisitor extends AbstractAstVisitor<String> {
     @Override
     public String visitIsNotNullExpression(final IsNotNullExpression isNotNullExpression) {
         return isNotNullExpression.expression().accept(this) + " IS NOT NULL";
+    }
+
+    @Override
+    public String visitFunctionCall(final FunctionCall functionCall) {
+        final String args = functionCall.arguments().stream()
+                .map(arg -> arg.accept(this))
+                .collect(Collectors.joining(", "));
+        
+        return functionCall.functionName() + "(" + args + ")";
     }
 }
